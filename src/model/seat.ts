@@ -20,6 +20,9 @@ const seatBookingSchema = new Schema({
     type: Date,
     required: true,
   },
+  departureDate: {
+    type: Date,
+  },
   price: {
     type: Number,
     required: true,

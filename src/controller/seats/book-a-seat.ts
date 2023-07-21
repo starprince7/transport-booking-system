@@ -16,7 +16,7 @@ export default async function BookASeat(
   next: NextFunction,
 ) {
   const { busId } = req.params;
-  const { seatNumber, passengerName, email } = req.body;
+  const { seatNumber, passengerName, email, departureDate } = req.body;
 
   try {
     const seat = await Seat.findOne({ bus: busId, seatNumber });
@@ -33,6 +33,7 @@ export default async function BookASeat(
     }
 
     seat.passengerName = passengerName;
+    seat.departureDate = departureDate;
     seat.isBooked = true;
     await seat.save();
 

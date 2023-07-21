@@ -24,10 +24,14 @@ const busSchema = new Schema({
     required: true,
     unique: true,
   },
+  departureDate: {
+    type: Date,
+  },
   model: {
     type: String,
     required: true,
   },
+  // This is the total passenger capacity excluding a pilot or driver.
   capacity: {
     type: Number,
     required: true,

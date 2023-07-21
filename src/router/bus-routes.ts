@@ -9,6 +9,8 @@ import GetSeatDetails from '../controller/seats/get-seat-details';
 import BookASeat from '../controller/seats/book-a-seat';
 import UpdateSeat from '../controller/seats/update-seat-details';
 import CancelSeatBooking from '../controller/seats/cancel-seat-booking';
+import SearchAvailableBuses from '../controller/search/available-buses';
+import SearchAvailableSeats from '../controller/search/available-seats';
 
 const router = Router();
 /**
@@ -47,7 +49,7 @@ router.put('/:busId/seats/:seatId/cancel', CancelSeatBooking);
   - GET /buses/search: Search for buses based on specific criteria (e.g., origin, destination, date).
   - GET /buses/:busId/seats/search: Search for available seats on a specific bus based on criteria (e.g., date, number of seats).
 */
-router.get('/search');
-router.get('/:busId/seats/search');
+router.get('/search', SearchAvailableBuses);
+router.get('/:busId/seats/search', SearchAvailableSeats);
 
 export default router;

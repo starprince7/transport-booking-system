@@ -14,11 +14,10 @@ const seatBookingSchema = new Schema({
   },
   passengerName: {
     type: String,
-    required: true,
+    default: '',
   },
   bookingDate: {
     type: Date,
-    required: true,
   },
   departureDate: {
     type: Date,

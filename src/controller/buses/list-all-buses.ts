@@ -13,7 +13,10 @@ export default async function ListAllBuses(
   res: Response,
   next: NextFunction,
 ) {
-  const { page, limit } = req.query;
+  let { page, limit } = req.query;
+
+  if (!page) page = '1';
+  if (!limit) limit = '10';
 
   try {
     const totalCount = await Bus.aggregate([
@@ -27,7 +30,7 @@ export default async function ListAllBuses(
       .exec();
 
     res.status(200).send({
-      count: totalCount[0].count,
+      count: totalCount[0]?.count || 0,
       page,
       limit,
       buses,

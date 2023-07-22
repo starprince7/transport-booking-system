@@ -14,24 +14,26 @@ export default async function CreateBus(
   res: Response,
   next: NextFunction,
 ) {
-  const {
-    registrationNumber,
-    model,
-    capacity,
-    origin,
-    destination,
-    seatPrice,
-  } = req.body;
+  const registrationNumber = req.body?.registrationNumber;
+  const model = req.body?.model;
+  const capacity = req.body?.capacity;
+  const origin = req.body?.origin;
+  const destination = req.body?.destination;
+  const seatPrice = req.body?.seatPrice;
+  const busType = req.body?.busType;
 
   // Validate fields
   if (!registrationNumber)
-    return next(new ErrorConstructor('Missing registrationNumber field', 401));
+    return next(new ErrorConstructor('Missing registrationNumber field', 400));
   if (!capacity)
-    return next(new ErrorConstructor('Missing capacity field', 401));
+    return next(new ErrorConstructor('Missing capacity field', 400));
   if (!destination)
-    return next(new ErrorConstructor('Missing destination field', 401));
-  if (!model) return next(new ErrorConstructor('Missing model field', 401));
-  if (!origin) return next(new ErrorConstructor('Missing origin field', 401));
+    return next(new ErrorConstructor('Missing destination field', 400));
+  if (!model) return next(new ErrorConstructor('Missing model field', 400));
+  if (!origin) return next(new ErrorConstructor('Missing origin field', 400));
+  if (!busType) return next(new ErrorConstructor('Missing busType field', 400));
+  if (!seatPrice)
+    return next(new ErrorConstructor('Missing seatPrice field', 401));
 
   try {
     // Create a Bus
@@ -43,7 +45,7 @@ export default async function CreateBus(
     for (let seatNumber = 1; seatNumber <= capacity; seatNumber++) {
       // create seat object.
       seatsToCreate.push({
-        busId: newBus._id,
+        bus: newBus._id,
         seatNumber,
         passengerName: null,
         bookingDate: null,
@@ -58,6 +60,14 @@ export default async function CreateBus(
       message: `Bus created successfully with ${capacity} seats`,
     });
   } catch (e: any) {
+    if (e.code === 11000) {
+      return next(
+        new ErrorConstructor(
+          'Duplicate registrationNumber found, this data already exits.',
+          400,
+        ),
+      );
+    }
     next(new ErrorConstructor(e.message));
   }
 }

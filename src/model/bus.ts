@@ -5,6 +5,10 @@ enum Amenities {
   WiFi = 'Wi-Fi',
   TV = 'TV',
   PowerOutlets = 'Power Outlets',
+  AirConditioner = 'Air Conditioner',
+  FreeDrinks = 'Free Drinks',
+  FreeMeal = 'Free Meal',
+  OnboardToilet = 'Onboard Toilet',
 }
 
 enum BusType {
@@ -40,7 +44,7 @@ const busSchema = new Schema({
     type: Boolean,
     default: true,
   },
-  type: {
+  busType: {
     type: String,
     enum: Object.values(BusType),
     required: true,

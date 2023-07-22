@@ -11,6 +11,9 @@ const port = process.env.PORT || 4000;
 // config app
 const app = express();
 
+// middleware
+app.use(express.json());
+
 // api routes
 app.use('/api/buses', busesRouter);
 

@@ -104,7 +104,7 @@ Required request body
 
 ###### Update an Existing Bus
 
-To update details of an existing bus make a PUT request to `/api/buses/:busId`
+To update details of an existing bus make a `PUT` request to `/api/buses/:busId`
 Required request body
 
 ```json

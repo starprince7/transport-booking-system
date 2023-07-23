@@ -14,6 +14,14 @@ import SearchAvailableSeats from '../controller/search/available-seats';
 
 const router = Router();
 /**
+ * Search Endpoints:
+
+  - GET /buses/search: Search for buses based on specific criteria (e.g., origin, destination, date).
+  - GET /buses/:busId/seats/search: Search for available seats on a specific bus based on criteria (e.g., date, number of seats).
+*/
+router.get('/search', SearchAvailableBuses);
+router.get('/:busId/seats/search', SearchAvailableSeats);
+/**
  *  Bus Endpoints:
 
   - GET /buses: Get a list of all buses.
@@ -27,7 +35,6 @@ router.get('/:busId', GetBusDetails);
 router.post('/', CreateBus);
 router.put('/:busId', UpdateBusDetails);
 router.delete('/:busId', DeleteBus);
-
 /**
  *  SEAT Booking Endpoints:
 
@@ -42,14 +49,5 @@ router.get('/:busId/seats/:seatId', GetSeatDetails);
 router.post('/:busId/seats', BookASeat);
 router.put('/:busId/seats/:seatId', UpdateSeat);
 router.put('/:busId/seats/:seatId/cancel', CancelSeatBooking);
-
-/**
- * Search Endpoints:
-
-  - GET /buses/search: Search for buses based on specific criteria (e.g., origin, destination, date).
-  - GET /buses/:busId/seats/search: Search for available seats on a specific bus based on criteria (e.g., date, number of seats).
-*/
-router.get('/search', SearchAvailableBuses);
-router.get('/:busId/seats/search', SearchAvailableSeats);
 
 export default router;

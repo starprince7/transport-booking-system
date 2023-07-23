@@ -8,36 +8,40 @@ import { NextFunction, Request, Response } from 'express';
 import ErrorConstructor from '../../utilities/constructError';
 import Bus from '../../model/bus';
 import Seat from '../../model/seat';
+import { formatTimeIn12HourFormat } from '../../utilities/format-time';
 
 const SearchAvailableBuses = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const { origin, destination, departureDate } = req.query;
+  const origin = req.query?.origin;
+  const destination = req.query?.destination;
+  const departureDate = req.query?.departureDate;
 
-  if (!req.query) {
+  if (!origin || !destination || !departureDate) {
     return next(
       new ErrorConstructor(
-        'Provide a search query parameter of `origin`, `destination` or `departureDate`',
+        'Please provide the search query parameters: `origin`, `destination`, and `departureDate`',
       ),
     );
   }
 
-  // Step 1: Find buses based on the search criteria
   try {
+    // Step 1: Find buses based on the search criteria
     const buses = await Bus.find({
       origin,
       destination,
       departureDate,
     });
-    if (!buses) {
+
+    if (!buses || buses.length === 0) {
       return next(
-        new ErrorConstructor('There are no available bus at this time', 404),
+        new ErrorConstructor('There are no available buses at this time', 404),
       );
     }
 
-    // Step 2: Get seat bookings for each identified bus on the specified departureDate.
+    // Step 2: Get seat bookings for each identified bus on the specified departureDate
     const availableBuses = [];
 
     for (const bus of buses) {
@@ -46,7 +50,7 @@ const SearchAvailableBuses = async (
         departureDate,
       });
 
-      // Step 3: Calculate available seats for each bus
+      // Step 3: Calculate available seats that are not booked for each bus
       const bookedSeats = seats.reduce(
         (count, seat) => count + (seat.isBooked ? 1 : 0),
         0,
@@ -54,18 +58,24 @@ const SearchAvailableBuses = async (
       const availableSeats = bus.capacity - bookedSeats;
 
       // Step 4: Check if the bus has available seats
-      // If `availableSeats` is above zero it means there is still some seat left,
+      // If `availableSeats` is above zero, it means there are still some seats left,
       // hence this validates this bus as an Available bus.
       if (availableSeats > 0) {
-        // Add the bus to the list of available buses
+        // Check if departureDate is a Date object, and then extract the time
+        const departureTime = bus.departureDate
+          ? formatTimeIn12HourFormat(bus.departureDate)
+          : '';
+
+        // Add the bus to the list of available buses along with the departure time
         availableBuses.push({
           bus: bus,
           availableSeats: availableSeats,
+          departureTime: departureTime,
         });
       }
     }
 
-    res.status(200).send({ error: false, availableBuses });
+    res.status(200).json({ error: false, availableBuses });
   } catch (e: any) {
     next(new ErrorConstructor(e.message));
   }

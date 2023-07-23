@@ -96,6 +96,14 @@ Required request body
 
 ```json
 {
+  "message": "...",
+  "statusCode": 400,
+  "error": true
+}
+```
+
+```json
+{
   "message": "Duplicate registrationNumber found, this data already exits.",
   "statusCode": 400,
   "error": true
@@ -188,5 +196,56 @@ To fetch list of all buses created make a `GET` request to `/api/buses`
     }
   ],
   "error": false
+}
+```
+
+###### Get Available Buses for departure
+
+To fetch list of all buses created make a `GET` request to `/api/buses/search`
+
+- Query Parameters
+  - origin: STRING The start location of a bus.
+  - destination: STRING The end location of a bus.
+  - departureDate: DATE STRING Time and day of departure.
+
+Example API route: `localhost:4000/api/buses/search?origin=Portharcourt&destination=Abuja&departureDate=2023-07-22T17:42:42.298Z`
+
+- Success Response
+
+```json
+{
+  "error": false,
+  "availableBuses": [
+    {
+      "bus": {
+        "_id": "64b9fed07a8ae34deeec53b4",
+        "seatPrice": 65000,
+        "registrationNumber": "ABC125DE",
+        "model": "Mercedes",
+        "capacity": 5,
+        "available": true,
+        "busType": "Electric Bus",
+        "amenities": ["Wi-Fi", "TV", "Power Outlets", "Air Conditioner"],
+        "origin": "Portharcourt",
+        "destination": "Abuja",
+        "createdAt": "2023-07-21T03:43:12.218Z",
+        "updatedAt": "2023-07-21T03:43:12.218Z",
+        "__v": 0,
+        "departureDate": "2023-07-22T17:42:42.298Z"
+      },
+      "availableSeats": 3,
+      "departureTime": "6:42 PM"
+    }
+  ]
+}
+```
+
+- Error Response
+
+```json
+{
+  "message": "There are no available buses at this time",
+  "statusCode": 404,
+  "error": true
 }
 ```

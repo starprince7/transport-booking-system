@@ -29,11 +29,14 @@ export default async function BookASeat(
         ),
       );
     if (seat && seat.isBooked) {
-      return next(new ErrorConstructor('This seat is already booked', 409));
+      return next(
+        new ErrorConstructor(`Seat No ${seatNumber}. is already booked`, 409),
+      );
     }
 
     seat.passengerName = passengerName;
     seat.departureDate = departureDate;
+    seat.bookingDate = new Date();
     seat.isBooked = true;
     await seat.save();
 

@@ -41,32 +41,43 @@ Due to my lack of the necessary permissions for user privacy, I do not intend to
 Hence the following endpoints will not exist.
 
 - User Endpoints:
+
   - POST /users: Create a new user account.
   - GET /users/:userId: Get user profile information.
   - PUT /users/:userId: Update user profile information.
   - DELETE /users/:userId: Delete a user account.
 
+#### Consistent Error Response Structure Accross All API Routes.
+
+```json
+{
+  "message": "...",
+  "statusCode": 400,
+  "error": true
+}
+```
+
 ## Usage
 
 Basic usage.
 
-###### Add a New Bus
+#### Add a New Bus
 
 To add a new bus make a `POST` request to `/api/buses/`
 Required request body
 
-```json
-{
-  "registrationNumber": "ABC125DE",
-  "model": "Mercedes",
-  "capacity": 5,
-  "origin": "Portharcourt",
-  "destination": "Abuja",
-  "seatPrice": 35000,
-  "busType": "Electric Bus",
-  "amenities": ["Wi-Fi", "TV", "Power Outlets", "Air Conditioner"]
-}
-```
+- Body Parameters
+  - registrationNumber: Unique vehicle registration plate No.
+  - model: STRING The brand type of bus vehicle e.g: Mercedes.
+  - capacity: NUMBER The passenger's email.
+  - origin: STRING The start location of a bus.
+  - destination: STRING The end location of a bus.
+  - departureDate: DATE-STRING Time and day of departure.
+  - seatPrice: NUMBER Price amount to pay for a seat.
+  - busType: STRING Example bus types; Shuttle Bus, Transit Bus, Electric Bus etc.
+  - amenities: ARRAY This is a list of special features in a bus e.g: Power Outlets, Onboard Toilet, Overhead video players.
+
+Example API route: `localhost:4000/api/buses`
 
 - Success Response
 
@@ -92,15 +103,7 @@ Required request body
 }
 ```
 
-#### Consistent Error Response Structure Accross All API Routes.
-
-```json
-{
-  "message": "...",
-  "statusCode": 400,
-  "error": true
-}
-```
+- Error Response
 
 ```json
 {
@@ -110,7 +113,7 @@ Required request body
 }
 ```
 
-###### Update an Existing Bus
+#### Update an Existing Bus
 
 To update details of an existing bus make a `PUT` request to `/api/buses/:busId`
 Required request body
@@ -152,7 +155,7 @@ Required request body
 }
 ```
 
-###### List All Buses
+#### List All Buses
 
 To fetch list of all buses created make a `GET` request to `/api/buses`
 
@@ -199,7 +202,7 @@ To fetch list of all buses created make a `GET` request to `/api/buses`
 }
 ```
 
-###### Get Available Buses for departure
+#### Get Available Buses for departure
 
 To fetch list of all buses created make a `GET` request to `/api/buses/search`
 
@@ -246,6 +249,62 @@ Example API route: `localhost:4000/api/buses/search?origin=Portharcourt&destinat
 {
   "message": "There are no available buses at this time",
   "statusCode": 404,
+  "error": true
+}
+```
+
+#### Book a Seat
+
+To book a seat make a `POST` request to `/api/buses/:busId/seats`
+
+- Body Parameters
+  - seatNumber: NUMBER specific seat no.
+  - passengerName: STRING The passenger's full name.
+  - email: STRING The passenger's email.
+  - departureDate: This is the departure date of a bus, will be assigned to a booked seat only.
+
+Example API route: `localhost:4000/api/buses/64b9fed07a8ae34deeec53b4/seats`
+
+- Success Response
+
+```json
+{
+  "error": false,
+  "bookedSeat": {
+    "_id": "64b9fed07a8ae34deeec53b7",
+    "bus": {
+      "_id": "64b9fed07a8ae34deeec53b4",
+      "seatPrice": 65000,
+      "registrationNumber": "ABC125DE",
+      "model": "Mercedes",
+      "capacity": 5,
+      "available": true,
+      "busType": "Electric Bus",
+      "amenities": ["Wi-Fi", "TV", "Power Outlets", "Air Conditioner"],
+      "origin": "Portharcourt",
+      "destination": "Abuja",
+      "createdAt": "2023-07-21T03:43:12.218Z",
+      "updatedAt": "2023-07-21T03:43:12.218Z",
+      "__v": 0,
+      "departureDate": "2023-07-22T17:42:42.298Z"
+    },
+    "seatNumber": 2,
+    "passengerName": "Starprince's kid",
+    "bookingDate": "2023-07-23T08:46:04.610Z",
+    "price": 35000,
+    "isBooked": true,
+    "__v": 0,
+    "departureDate": "2023-07-22T17:42:42.298Z"
+  }
+}
+```
+
+- Error Response
+
+```json
+{
+  "message": "Seat No 4. is already booked",
+  "statusCode": 409,
   "error": true
 }
 ```

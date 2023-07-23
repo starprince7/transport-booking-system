@@ -14,7 +14,7 @@ Open [http://localhost:4000](http://localhost:4000) with your browser to see the
 
 You can start editing by modifying `/src/server.js`. The page auto-updates as you edit the file.
 
-## API ENDPOINTS
+## API Endpoints
 
 - Bus Endpoints:
 
@@ -77,7 +77,7 @@ Required request body
   - busType: STRING Example bus types; Shuttle Bus, Transit Bus, Electric Bus etc.
   - amenities: ARRAY This is a list of special features in a bus e.g: Power Outlets, Onboard Toilet, Overhead video players.
 
-Example API route: `localhost:4000/api/buses`
+Example API route: POST `localhost:4000/api/buses`
 
 - Success Response
 
@@ -118,18 +118,19 @@ Example API route: `localhost:4000/api/buses`
 To update details of an existing bus make a `PUT` request to `/api/buses/:busId`
 Required request body
 
-```json
-{
-  "registrationNumber": "ABC125DE",
-  "model": "Mercedes",
-  "capacity": 5,
-  "origin": "Portharcourt",
-  "destination": "Abuja",
-  "seatPrice": 35000,
-  "busType": "Electric Bus",
-  "amenities": ["Wi-Fi", "TV", "Power Outlets", "Air Conditioner"]
-}
-```
+- Body Parameters
+
+  - registrationNumber: Unique vehicle registration plate No.
+  - model: STRING The brand type of bus vehicle e.g: Mercedes.
+  - capacity: NUMBER The passenger's email.
+  - origin: STRING The start location of a bus.
+  - destination: STRING The end location of a bus.
+  - departureDate: DATE-STRING Time and day of departure.
+  - seatPrice: NUMBER Price amount to pay for a seat.
+  - busType: STRING Example bus types; Shuttle Bus, Transit Bus, Electric Bus etc.
+  - amenities: ARRAY This is a list of special features in a bus e.g: Power Outlets, Onboard Toilet, Overhead video players.
+
+  - available: BOOLEAN This specifies the availablitiy of a bus.
 
 - Success Response
 
@@ -211,7 +212,7 @@ To fetch list of all buses created make a `GET` request to `/api/buses/search`
   - destination: STRING The end location of a bus.
   - departureDate: DATE STRING Time and day of departure.
 
-Example API route: `localhost:4000/api/buses/search?origin=Portharcourt&destination=Abuja&departureDate=2023-07-22T17:42:42.298Z`
+Example API route: GET `localhost:4000/api/buses/search?origin=Portharcourt&destination=Abuja&departureDate=2023-07-22T17:42:42.298Z`
 
 - Success Response
 
@@ -263,7 +264,7 @@ To book a seat make a `POST` request to `/api/buses/:busId/seats`
   - email: STRING The passenger's email.
   - departureDate: This is the departure date of a bus, will be assigned to a booked seat only.
 
-Example API route: `localhost:4000/api/buses/64b9fed07a8ae34deeec53b4/seats`
+Example API route: POST `localhost:4000/api/buses/64b9fed07a8ae34deeec53b4/seats`
 
 - Success Response
 

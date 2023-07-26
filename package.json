@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node dist/server.js",
-    "build": "npm install tsc && tsc",
+    "build": "npm install typescript && tsc",
     "dev": "nodemon src/server.ts --exec ts-node"
   },
   "keywords": [],

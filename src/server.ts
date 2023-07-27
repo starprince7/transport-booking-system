@@ -21,7 +21,7 @@ app.use('/api/buses', busesRouter);
 
 // route
 app.get('/', (req, res) => {
-  res.send('Booking system service is running!');
+  res.send('Booking system service is running with cors!');
 });
 
 // Send specific error formats.

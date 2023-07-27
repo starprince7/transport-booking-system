@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import 'dotenv/config';
 
 import databaseConnection from './connectdb';
@@ -13,6 +14,7 @@ const app = express();
 
 // middleware
 app.use(express.json());
+app.use(cors());
 
 // api routes
 app.use('/api/buses', busesRouter);

@@ -24,7 +24,7 @@ export default async function BookASeat(
     if (!seat)
       return next(
         new ErrorConstructor(
-          "This seat was not found or doesn't belong to this bus.",
+          `Sorry, seat ${seatNumber} is not available on this bus; kindly pick another seat.`,
           404,
         ),
       );

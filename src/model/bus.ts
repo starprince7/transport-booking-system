@@ -57,6 +57,7 @@ const busSchema = new Schema({
       },
     ],
   },
+  // ************* This is defined as a trip: [ Origin - Destination ].
   origin: {
     type: String,
     required: true,
@@ -64,7 +65,7 @@ const busSchema = new Schema({
   destination: {
     type: String,
     required: true,
-  },
+  }, // ************* This is defined as a trip: [ Origin - Destination ].
   createdAt: {
     type: Date,
     default: Date.now,

@@ -47,7 +47,6 @@ const SearchAvailableBuses = async (
     for (const bus of buses) {
       const seats = await Seat.find({
         bus: bus._id,
-        departureDate,
       });
 
       // Step 3: Calculate available seats that are not booked for each bus
@@ -55,6 +54,7 @@ const SearchAvailableBuses = async (
         (count, seat) => count + (seat.isBooked ? 1 : 0),
         0,
       );
+
       const availableSeats = bus.capacity - bookedSeats;
 
       // Step 4: Check if the bus has available seats

@@ -1,16 +1,29 @@
 import sendMail from '../services/mail-service';
+import formatToCurrency from '../utilities/formatCurrency';
 
 type TicketMailer = {
   to: string;
-  info: any;
+  bookingInfo: any;
 };
 
-export default async function mailBookingTicket({ to, info }: TicketMailer) {
+export default async function mailBookingTicket({
+  to,
+  bookingInfo,
+}: TicketMailer) {
+  const bus = bookingInfo.bus;
   const mailOptions = {
     to,
-    from: 'Bus Booking System <system@princenweke.com>',
+    from: 'Bus Booking System <mail-system@princenweke.com>',
     subject: 'Your Bus Ticket',
-    text: "Here's your ticket, testing...",
+    template: 'bus_quest_booking_ticket',
+    'v:fullName': bookingInfo.passengerName,
+    'v:amountPaid': formatToCurrency(bookingInfo.price),
+    'v:bookingDate': bookingInfo.bookingDate,
+    'v:departureDate': bookingInfo.departureDate,
+    'v:departureTerminal': bus.origin,
+    'v:arrival': bus.destination,
+    'v:registrationNumber': bus.registrationNumber,
+    'v:busId': bus._id,
   };
 
   try {

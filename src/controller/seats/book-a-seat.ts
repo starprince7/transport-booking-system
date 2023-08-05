@@ -45,7 +45,7 @@ export default async function BookASeat(
 
     // send ticket to passenger's email.
     if (email) {
-      await mailBookingTicket({ to: email, info: bookedSeat });
+      await mailBookingTicket({ to: email, bookingInfo: bookedSeat });
     }
 
     res.status(200).send({ error: false, bookedSeat });

@@ -14,7 +14,7 @@ const mailgun = new Mailgun(formData);
 const authCredentials = {
   username: 'api',
   key: process.env.MAILGUN_PRIVATE_KEY,
-  url: 'https://api.eu.mailgun.net/',
+  url: 'https://api.mailgun.net/',
 };
 const mailgunClient = mailgun.client(authCredentials);
 

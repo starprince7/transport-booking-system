@@ -20,6 +20,7 @@ export default async function mailBookingTicket({
     'v:amountPaid': formatToCurrency(bookingInfo.price),
     'v:bookingDate': bookingInfo.bookingDate,
     'v:departureDate': bookingInfo.departureDate,
+    'v:seatNumber': bookingInfo.seatNumber,
     'v:departureTerminal': bus.origin,
     'v:arrival': bus.destination,
     'v:registrationNumber': bus.registrationNumber,
